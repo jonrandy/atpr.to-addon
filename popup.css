@@ -1,0 +1,183 @@
+/* Firefox renders the toolbar popup as a native panel with its own
+   light/dark background already; painting our own over it just fights
+   the theme. Using system color keywords (Canvas, CanvasText, etc.) with
+   color-scheme set lets the popup blend into that panel and follow
+   light/dark automatically, in both the toolbar popup and the standalone
+   window the context-menu action opens (which has no panel of its own to
+   show through, so it needs a real background rather than true
+   transparency). */
+:root {
+  color-scheme: light dark;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  background: transparent;
+}
+
+body {
+  margin: 0;
+  width: 320px;
+  padding: 14px;
+  font: 13px/1.4 -apple-system, "Segoe UI", Helvetica, Arial, sans-serif;
+  color: CanvasText;
+}
+
+.head {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.head h1 {
+  font-size: 14px;
+  font-weight: 600;
+  margin: 0;
+  letter-spacing: 0.02em;
+}
+
+.mark {
+  width: 16px;
+  height: 16px;
+  display: inline-block;
+  background-image: url("icons/icon32.png");
+  background-size: contain;
+  background-repeat: no-repeat;
+}
+
+@media (prefers-color-scheme: dark) {
+  .mark {
+    background-image: url("icons/icon32-light.png");
+  }
+}
+
+.field {
+  margin-bottom: 10px;
+}
+
+label {
+  display: block;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: GrayText;
+  margin-bottom: 4px;
+}
+
+.opt {
+  text-transform: none;
+  letter-spacing: 0;
+}
+
+input {
+  width: 100%;
+  padding: 7px 8px;
+  background: Field;
+  color: FieldText;
+  border: 1px solid ButtonBorder;
+  font: inherit;
+}
+
+input:focus {
+  outline: none;
+  border-color: AccentColor;
+}
+
+.btn {
+  width: 100%;
+  padding: 8px 10px;
+  border: 1px solid ButtonBorder;
+  background: ButtonFace;
+  color: ButtonText;
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.btn--fill {
+  background: AccentColor;
+  border-color: AccentColor;
+  color: AccentColorText;
+}
+
+.btn:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+.state {
+  margin: 10px 0 0;
+  font-size: 12px;
+}
+
+.state--err {
+  color: #e0554f;
+}
+
+.result {
+  margin-top: 10px;
+  display: flex;
+  gap: 6px;
+  align-items: center;
+}
+
+/* `.result` sets its own `display`, which ties with the browser's
+   `[hidden] { display: none }` on specificity — the author rule would win
+   and leave an empty bordered box visible before anything's shortened.
+   The extra specificity here breaks that tie in favor of staying hidden. */
+.result[hidden] {
+  display: none;
+}
+
+.result-link {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-family: ui-monospace, Menlo, Consolas, monospace;
+  font-size: 12px;
+  color: LinkText;
+  padding: 7px 8px;
+  border: 1px solid ButtonBorder;
+  background: Field;
+}
+
+.result .btn {
+  width: auto;
+  flex-shrink: 0;
+}
+
+.linklike {
+  background: none;
+  border: none;
+  color: LinkText;
+  text-decoration: underline;
+  cursor: pointer;
+  font: inherit;
+  padding: 0;
+}
+
+.foot {
+  margin-top: 14px;
+  padding-top: 10px;
+  border-top: 1px solid ButtonBorder;
+}
+
+.foot .btn {
+  font-weight: 500;
+  color: GrayText;
+  background: none;
+  border-color: transparent;
+  padding: 6px 10px;
+}
+
+.foot .btn:hover {
+  color: CanvasText;
+  border-color: ButtonBorder;
+}

@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>atpr.to</title>
+    <link rel="stylesheet" href="popup.css" />
+  </head>
+  <body>
+    <header class="head">
+      <span class="mark" aria-hidden="true"></span>
+      <h1>atpr.to</h1>
+    </header>
+
+    <form id="make">
+      <div class="field">
+        <label for="url">Link</label>
+        <input id="url" type="url" required placeholder="https://example.com/..." />
+      </div>
+      <div class="field">
+        <label for="code">Custom code <span class="opt">(optional)</span></label>
+        <input id="code" type="text" placeholder="auto-generated" />
+      </div>
+      <button type="submit" id="go" class="btn btn--fill">Shorten</button>
+    </form>
+
+    <p id="error" class="state state--err" hidden></p>
+
+    <div id="result" class="result" hidden>
+      <a id="result-link" class="result-link" target="_blank" rel="noopener"></a>
+      <button type="button" id="copy" class="btn">Copy</button>
+    </div>
+
+    <p id="signedout" class="state state--err" hidden>
+      Not signed in to atpr.to.
+      <button type="button" id="signin" class="linklike">Sign in</button>
+    </p>
+
+    <footer class="foot">
+      <button type="button" id="dashboard" class="btn">My links →</button>
+    </footer>
+
+    <script src="popup.js"></script>
+  </body>
+</html>
