@@ -148,6 +148,7 @@ input:focus {
   color: LinkText;
   padding: 7px 8px;
   border: 1px solid ButtonBorder;
+  border-radius: 0.5em;
   background: Field;
 }
 
