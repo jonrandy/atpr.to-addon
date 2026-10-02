@@ -80,6 +80,7 @@ input {
   background: Field;
   color: FieldText;
   border: 1px solid ButtonBorder;
+  border-radius: 0.5em;
   font: inherit;
 }
 
@@ -90,8 +91,10 @@ input:focus {
 
 .btn {
   width: 100%;
+  margin: 0.5em 0;
   padding: 8px 10px;
   border: 1px solid ButtonBorder;
+  border-radius:0.5em;
   background: ButtonFace;
   color: ButtonText;
   font: inherit;
