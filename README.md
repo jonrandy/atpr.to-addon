@@ -10,10 +10,6 @@ It uses your existing atpr.to session cookie to determine if you're logged in (`
 dashboard page itself — there's no login flow in the extension. If you're signed out, it'll tell you and offer to open
 atpr.to.
 
-**Assumption:** the site is `atpr.to` (inferred from the dashboard JS's own comment identifying its four-square mark
-as the atpr.to brand). If that's wrong, it's one line to change — `BASE` at the top of `background.js` and
-`popup.js`, plus the `host_permissions` entry in `manifest.json`.
-
 ## Install (Chrome / Edge / Brave)
 
 1. Go to `chrome://extensions`
@@ -22,13 +18,19 @@ as the atpr.to brand). If that's wrong, it's one line to change — `BASE` at th
 
 ## Install (Firefox)
 
-Temporary (until you restart Firefox):
+### Temporary
 1. Go to `about:debugging#/runtime/this-firefox`
 2. Click "Load Temporary Add-on…" and select `manifest.json` in this folder
 
-Permanent: Firefox requires signing for permanent installs outside the add-on store. For personal use,
-`about:config` → set `xpinstall.signatures.required` to `false` (Firefox Developer/Nightly builds only — not
-available on release Firefox), or package it for self-distribution via addons.mozilla.org's unlisted signing.
+### Permanent (Unsigned)
+Standard Firefox releases enforce signature checks for permanent add-on installations, but you can bypass this requirement if you use **Firefox Nightly** or **Firefox Developer Edition**:
+
+1. Open `about:config` in the address bar.
+2. Search for `xpinstall.signatures.required` and toggle its value to `false`.
+3. Zip the contents of this folder (or build an `.xpi` file).
+4. Drag and drop the archive directly into `about:addons` or install it via the gear icon ("Install Add-on From File…").
+
+*Note: For standard release versions of Firefox, permanently installing an add-on outside the official store requires packaging and submitting it for unlisted signing via [addons.mozilla.org](https://addons.mozilla.org).*
 
 ## Files
 
