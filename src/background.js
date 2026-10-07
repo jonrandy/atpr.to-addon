@@ -55,7 +55,7 @@ async function shorten(url, code) {
 // stashed here, read and cleared by popup.js on load.
 const api = typeof browser !== "undefined" ? browser : chrome
 
-chrome.contextMenus.onClicked.addListener(async (info) => {
+chrome.contextMenus.onClicked.addListener(async info => {
   if (info.menuItemId !== MENU_ID || !info.linkUrl) return
 
   await chrome.storage.local.set({ pendingUrl: info.linkUrl })
