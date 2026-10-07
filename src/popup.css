@@ -100,6 +100,8 @@ input:focus {
   font: inherit;
   font-weight: 600;
   cursor: pointer;
+  text-transform: uppercase;
+  font-size:80%;
 }
 
 .btn--fill {
