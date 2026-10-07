@@ -1,0 +1,52 @@
+name: Release
+
+# Tag push only (e.g. v1.2.0) — builds dist/chrome and dist/firefox from
+# src/ exactly as `npm run build` does locally, then attaches the two
+# unsigned packages (chrome zip, firefox xpi) to a GitHub Release for that
+# tag. Nothing here runs on an ordinary push or PR.
+on:
+  push:
+    tags:
+      - "v*"
+
+permissions:
+  contents: write # needed to create the release and upload assets
+
+jobs:
+  build-and-release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - run: npm ci
+
+      # The tag is the one place a version gets declared for a release, so
+      # it's worth catching a forgotten package.json bump here rather than
+      # quietly shipping a release whose filenames don't match its tag.
+      - name: Check tag matches package.json version
+        run: |
+          pkg_version="v$(node -p "require('./package.json').version")"
+          tag="${GITHUB_REF#refs/tags/}"
+          if [ "$pkg_version" != "$tag" ]; then
+            echo "Tag $tag does not match package.json version ($pkg_version)."
+            echo "Bump \"version\" in package.json to match before tagging, or re-tag to match it."
+            exit 1
+          fi
+
+      - run: npm run build
+      - run: npm run lint:firefox
+
+      - name: Create release and attach builds
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release create "${GITHUB_REF#refs/tags/}" \
+            dist/*-chrome.zip \
+            dist/*-firefox.xpi \
+            --title "${GITHUB_REF#refs/tags/}" \
+            --generate-notes
